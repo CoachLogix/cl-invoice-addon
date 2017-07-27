@@ -1,0 +1,43 @@
+{{yield}}
+
+{{#paper-card}}
+   <md-card-title>
+    <md-card-title-media>
+      {{#if invoice.received}}
+        {{avatar-icon model=invoice.payee class="summary-card-invoice__payee md-media-md card-media"}}
+      {{else}}
+        {{avatar-icon model=invoice.payer class="summary-card-invoice__payer md-media-md card-media"}}
+      {{/if}}
+    </md-card-title-media>
+    <md-card-title-text>
+      <div class="layout-row">
+        {{#if invoice.received}}
+          <span class="md-title flex">{{invoice.payee.name}}</span>
+        {{else}}
+          <span class="md-title flex">{{invoice.payer.name}}</span>
+        {{/if}}
+        <div class="summary-card-invoice__status" {{action '' preventDefault=true}}>
+          {{status-icon/invoice status=invoice.status}}
+        </div>
+      </div>
+      <span class="md-subhead">
+        Invoice{{#if invoice.identifier}} #: {{invoice.identifier}}{{/if}}
+      </span>
+      <span class="md-subhead">
+        Issued {{moment-js invoice.issued 'll'}}
+      </span>
+      {{#if invoice.due}}
+        <span class="md-subhead">
+          Due {{moment-js invoice.due 'll'}}
+        </span>
+      {{/if}}
+    </md-card-title-text>
+  </md-card-title>
+
+  {{paper-divider}}
+
+  {{#paper-card-content}}
+    <span>{{format-money invoice.total invoice.currency.currency invoice.currency.symbol}}</span>
+  {{/paper-card-content}}
+
+{{/paper-card}}
