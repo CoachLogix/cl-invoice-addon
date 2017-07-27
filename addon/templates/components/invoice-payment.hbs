@@ -2,13 +2,6 @@
 
 {{#paper-card}}
    <md-card-title>
-    <md-card-title-media>
-      {{#if invoice.received}}
-        {{avatar-icon model=invoice.payee class="summary-card-invoice__payee md-media-md card-media"}}
-      {{else}}
-        {{avatar-icon model=invoice.payer class="summary-card-invoice__payer md-media-md card-media"}}
-      {{/if}}
-    </md-card-title-media>
     <md-card-title-text>
       <div class="layout-row">
         {{#if invoice.received}}
@@ -16,10 +9,7 @@
         {{else}}
           <span class="md-title flex">{{invoice.payer.name}}</span>
         {{/if}}
-        <div class="summary-card-invoice__status" {{action '' preventDefault=true}}>
-          {{status-icon status=invoice.status}}
-        </div>
-      </div>
+    </div>
       <span class="md-subhead">
         Invoice{{#if invoice.identifier}} #: {{invoice.identifier}}{{/if}}
       </span>
