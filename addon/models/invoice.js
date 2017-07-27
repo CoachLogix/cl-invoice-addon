@@ -20,6 +20,11 @@ export default Model.extend({
       return new Date();
     }
   }),
+  payer: belongsTo('model', {
+    polymorphic: true,
+    async: true,
+    inverse: null
+  }),
   payee: belongsTo('model', {
     polymorphic: true,
     async: true,

@@ -1,0 +1,39 @@
+.status-icon {
+  padding: 0px;
+  border: 1px solid #d4dde6;
+  display: inline-block;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 26px;
+  text-align: center;
+  outline: none;
+  i {
+    display: inline-block;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+  }
+}
+
+.status-icon_active i,
+.status-icon_paid i,
+.status-icon_connected i {
+  background: #13b784;
+}
+.status-icon_paused i,
+.status-icon_invited i {
+  background: #ffc800;
+}
+.status-icon_complete i,
+.status-icon_issued i {
+  background: #4187fe;
+}
+.status-icon_draft i,
+.status-icon_internal i {
+  background: #9ba9b4
+}
+.status-icon_canceled i,
+.status-icon_late i {
+  background: #e74e51;
+}

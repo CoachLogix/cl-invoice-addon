@@ -1,0 +1,48 @@
+{{#if isOrganization}}
+  {{initials-avatar
+    class=class
+    company=model.name
+    image=model.thumbImg
+    colorIndex=model.id
+    maxColorIndex=4
+    static=static
+    model=model
+  }}
+{{/if}}
+{{#if isUser}}
+  {{initials-avatar
+    class=class
+    firstName=model.firstName
+    lastName=model.lastName
+    email=model.email
+    image=model.profile.avatar.thumbnail
+    colorIndex=model.id
+    maxColorIndex=4
+    static=static
+    model=model
+  }}
+{{/if}}
+{{#if isUserAccount}}
+  {{initials-avatar
+    class=class
+    firstName=model.user.firstName
+    lastName=model.user.lastName
+    email=model.user.email
+    image=model.user.profile.avatar.thumbnail
+    colorIndex=model.user.id
+    maxColorIndex=4
+    static=static
+    model=model.user
+  }}
+{{/if}}
+{{#if isSearchResult}}
+  {{initials-avatar
+    class=class
+    company=model.name
+    image=model.logo
+    colorIndex=model.id
+    maxColorIndex=4
+    static=static
+    model=model
+  }}
+{{/if}}

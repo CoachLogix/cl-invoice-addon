@@ -1,0 +1,42 @@
+.avatar-icon {
+  @include avatar-icon(40);
+  border-radius: 50%;
+}
+.avatar-icon_routable {
+  cursor: pointer;
+}
+
+.initialsAvatar {
+  display: inline-block;
+  text-align: center;
+  &:before, &:after {
+    content: " "; // prevents async content jump
+  }
+}
+
+md-card-avatar .avatar-icon {
+  @include avatar-icon(40);
+}
+
+.avatarColor-1 {
+  background: #13b784;
+  color: white;
+}
+.avatarColor-2 {
+  background: #3a475d;
+  color: white;
+}
+.avatarColor-3 {
+  background: #43c6fe;
+  color: white;
+}
+.avatarColor-4 {
+  background: #6a6ae2;
+  color: white;
+}
+
+.avatar-row {
+  margin: auto 0;
+  .avatar-icon { margin-right: 8px; }
+  .md-button { margin: 0;}
+}

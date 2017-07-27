@@ -1,0 +1,1 @@
+export { default } from 'cl-invoice-addon/components/avatar-icon';
