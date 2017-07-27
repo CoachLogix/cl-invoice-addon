@@ -6,6 +6,20 @@ const { computed } = Ember;
 
 export default Model.extend({
   /* Properties */
+  identifier: attr(),
+  received: attr('boolean'),
+  status: attr('string', { defaultValue: 'draft' }),
+  isPaid: attr('boolean'),
+  issued: attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
+  due: attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
   payee: belongsTo('model', {
     polymorphic: true,
     async: true,
