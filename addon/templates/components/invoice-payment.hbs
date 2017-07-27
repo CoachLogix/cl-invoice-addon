@@ -17,7 +17,7 @@
           <span class="md-title flex">{{invoice.payer.name}}</span>
         {{/if}}
         <div class="summary-card-invoice__status" {{action '' preventDefault=true}}>
-          {{status-icon/invoice status=invoice.status}}
+          {{status-icon status=invoice.status}}
         </div>
       </div>
       <span class="md-subhead">
