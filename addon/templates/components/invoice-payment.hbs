@@ -1,6 +1,16 @@
 {{yield}}
 <div class="flex flex-100">
   {{#paper-card class="invoice-card" as |card|}}
+    {{#paper-card-content}}
+    {{#paper-toolbar class="light-theme"}}
+        {{#paper-toolbar-tools}}
+          <div class="flex"></div>
+          {{#paper-button primary=true accent=true raised=true onClick=(action 'payInvoice')}}
+            Pay via Stripe
+          {{/paper-button}}
+        {{/paper-toolbar-tools}}
+      {{/paper-toolbar}}
+    {{/paper-card-content}}
     {{#card.content class="invoice-card-content"}}
       <div class="layout-row">
         <div class="payee-info layout-row layout-align-space-between">
@@ -204,12 +214,5 @@
         {{/paper-table}}
       </div>
     {{/card.content}}
-    {{#paper-card-content}}
-      <div layout="row" layout-align="end center">
-        {{#paper-button raised=true primary=true onClick=(action 'payInvoice')}}
-          Pay via Stripe
-        {{/paper-button}}
-        </div>
-     {{/paper-card-content}}
   {{/paper-card}}
 </div>
