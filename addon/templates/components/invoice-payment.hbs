@@ -204,5 +204,12 @@
         {{/paper-table}}
       </div>
     {{/card.content}}
+    {{#paper-card-content}}
+      <div layout="row" layout-align="end center">
+        {{#paper-button raised=true primary=true onClick=(action 'payInvoice')}}
+          Pay via Stripe
+        {{/paper-button}}
+        </div>
+     {{/paper-card-content}}
   {{/paper-card}}
 </div>
