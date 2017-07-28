@@ -80,6 +80,7 @@ export default Component.extend({
           }
         });
       }
-    },
+    }
   }
-});
+);
+
