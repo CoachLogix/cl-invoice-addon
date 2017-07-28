@@ -1,12 +1,11 @@
 import Ember from 'ember';
-import ENV from 'coachlogix/config/environment';
+import ENV from './config/environment';
 
 const { Service } = Ember;
 
 const handler = StripeCheckout.configure({ // eslint-disable-line
   key: ENV.stripe.key,
   locale: 'auto',
-  image: '/assets/images/cl_logo_square.jpg',
   zipCode: ENV.stripe.requirePaymentDetails,
   address: ENV.stripe.requirePaymentDetails
 });

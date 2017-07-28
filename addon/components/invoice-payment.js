@@ -17,38 +17,68 @@ export default Component.extend({
     return `/api/pendingActions/${modelId}/set_disposition`;
   }),
 
+  onSuccess: function() {
+    // gather responses, build payload
+    let ajax = this.get('ajax');
+    let component = this;
+    let endpoint = this.get('apiEndpoint');
+    let invoice = this.get('invoice');
+    let payload = {
+      disposition: 'pay',
+      invoice
+    };
+
+    this.set('ajaxPending', true);
+
+    // post to pendingActions/set_disposition endpoint
+    let request = ajax.request(endpoint, {
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({pendingAction: payload})
+    }).then(() => {
+      this.set('ajaxPending', false);
+      this.sendAction('successAction');
+    });
+  }
   actions: {
-    submit: function() {
-      // gather responses, build payload
+    payInvoice: function () {
+      let stripeCheckout = this.get('stripeCheckout');
       let ajax = this.get('ajax');
-      let component = this;
-      let endpoint = this.get('apiEndpoint');
+      let url = '/api/stripe/pay';
       let invoice = this.get('invoice');
-      let payload = {
-        disposition: 'pay',
-        invoice
-      };
+      let toast = this.get('toast');
 
-      this.set('ajaxPending', true);
+      // Default thumbnail
+      let thumbnail = '/assets/images/cl_logo_square.jpg';
+      if (invoice.get('payee.avatar')) {
+        thumbnail = invoice.get('payee.avatar.thumbnail');
+      }
 
-      // post to pendingActions/set_disposition endpoint
-      let request = ajax.request(endpoint, {
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({pendingAction: payload})
-      });
-
-      // catch success/failure and bubble actions appropriately
-      let onSuccess = function() {
-          component.set('ajaxPending', false);
-          component.sendAction('successAction');
-      };
-      let onError = function() {
-          component.set('ajaxPending', false);
-          component.sendAction('errorAction');
-      };
-
-      request.then(onSuccess, onError);
-    }
+      stripeCheckout
+        .open({
+          name: invoice.get('payee.name'),
+          image: thumbnail,
+          allowRememberMe: false,
+          description: 'Invoice Payment',
+          currency: this.get('model.currency.currency'),
+          amount: this.get('model.totalInCents'),
+          token: (token) => {
+            ajax.request(url, {
+              method: 'POST',
+              data: {
+                tokenId: token.id,
+                receiptEmail: token.email,
+                invoiceId: invoice.id
+              }
+            }).then(() => {
+              invoice.reload();
+              this.get('onSuccess')();
+            }, (err) => {
+              this.sendAction('errorAction');
+            });
+          }
+        });
+      }
+    },
   }
 });

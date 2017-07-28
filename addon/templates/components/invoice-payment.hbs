@@ -27,7 +27,15 @@
   {{paper-divider}}
 
   {{#paper-card-content}}
-    <span>{{invoice.total}} {{invoice.currency.currency}} {{invoice.currency.symbol}}</span>
+    <span>{{invoice.currency.symbol}} {{invoice.total}} {{invoice.currency.currency}} </span>
+  {{/paper-card-content}}
+
+  {{#paper-card-content}}
+    <div layout="row" layout-align="end center">
+      {{#paper-button raised=true primary=true onClick=(action 'submit')}}
+        Pay via Stripe
+      {{/paper-button}}
+    </div>
   {{/paper-card-content}}
 
 {{/paper-card}}
