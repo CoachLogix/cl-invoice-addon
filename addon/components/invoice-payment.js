@@ -59,8 +59,8 @@ export default Component.extend({
           image: thumbnail,
           allowRememberMe: false,
           description: 'Invoice Payment',
-          currency: this.get('model.currency.currency'),
-          amount: this.get('model.totalInCents'),
+          currency: invoice.get('currency.currency'),
+          amount: invoice.get('totalInCents'),
           token: (token) => {
             ajax.request(url, {
               method: 'POST',

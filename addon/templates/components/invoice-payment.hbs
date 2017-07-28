@@ -1,41 +1,208 @@
 {{yield}}
-
-{{#paper-card}}
-   <md-card-title>
-    <md-card-title-text>
+<div class="flex flex-100">
+  {{#paper-card class="invoice-card" as |card|}}
+    {{#card.content class="invoice-card-content"}}
       <div class="layout-row">
-        {{#if invoice.received}}
-          <span class="md-title flex">{{invoice.payee.name}}</span>
-        {{else}}
-          <span class="md-title flex">{{invoice.payer.name}}</span>
-        {{/if}}
-    </div>
-      <span class="md-subhead">
-        Invoice{{#if invoice.identifier}} #: {{invoice.identifier}}{{/if}}
-      </span>
-      <span class="md-subhead">
-        Issued {{moment-js invoice.issued 'll'}}
-      </span>
-      {{#if invoice.due}}
-        <span class="md-subhead">
-          Due {{moment-js invoice.due 'll'}}
-        </span>
-      {{/if}}
-    </md-card-title-text>
-  </md-card-title>
+        <div class="payee-info layout-row layout-align-space-between">
+          <div class="payee-image-wrapper">
+            <img class="payee-image" src={{invoice.payee.thumbImg}}/>
+          </div>
+          <div class="layout-column">
+            <span class="payee-name">{{invoice.payee.name}}</span>
+            <span>{{invoice.payee.website}}</span>
+            <span>{{invoice.payee.address}}</span>
+            <span>{{invoice.payee.phone}}</span>
+          </div>
+        </div>
+        <div class="flex"></div>
+        <div class="layout-row layout-align-start-start">
+          {{#invoice-status status=invoice.status}}{{/invoice-status}}
+          <h2 class="md-title invoice-title">Invoice</h2>
+        </div>
+      </div>
 
-  {{paper-divider}}
+      <div class="layout-row">
+        <div class="flex layout-column">
+          <span class="md-caption">Invoice to</span>
+          <div class="divider-pad">
+            {{paper-divider}}
+          </div>
 
-  {{#paper-card-content}}
-    <span>{{format-money invoice.total invoice.currency.currency invoice.currency.symbol}}</span>
-  {{/paper-card-content}}
+          <span class="payer-name">{{invoice.payer.name}}</span>
+          <span>{{invoice.payerContact}}</span>
+          <span>{{invoice.payerAddressOne}}</span>
+          <span>{{invoice.payerAddressTwo}}</span>
+        </div>
 
-  {{#paper-card-content}}
-    <div layout="row" layout-align="end center">
-      {{#paper-button raised=true primary=true onClick=(action 'payInvoice')}}
-        Pay via Stripe
-      {{/paper-button}}
-    </div>
-  {{/paper-card-content}}
+        <div class="flex"></div>
 
-{{/paper-card}}
+        <div class="invoice-details flex layout-column">
+          <span class="md-caption">Details</span>
+
+          <div class="divider-pad">
+            {{paper-divider}}
+          </div>
+
+          <div class="layout-row layout-align-start-center">
+            <div class="row-label flex">Invoice #</div>
+            <div class="layout-align-end">{{invoice.identifier}}</div>
+          </div>
+          <div class="layout-row layout-align-start-center">
+            <div class="row-label flex">Cost Code</div>
+            <div class="layout-align-end">{{invoice.costCode}}</div>
+          </div>
+          <div class="layout-row layout-align-start-center">
+            <div class="row-label flex">Date Issued</div>
+            <div class="layout-align-end">
+              {{moment-format invoice.issued "L"}}
+            </div>
+          </div>
+          <div class="layout-row layout-align-start-center">
+            <div class="row-label flex">Due Date</div>
+            <div class="layout-align-end">
+              {{moment-format invoice.due "L"}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider-pad flex-100">
+        {{paper-divider}}
+      </div>
+
+      <div class="layout-row layout-align-center-center">
+        <div class="layout-column layout-align-start-stretch">
+          <div class="coached-by-wrapper layout-row">
+            <span class="coachee-name">{{invoice.relatedEngagement.coachee.name}}</span>
+            <span class="md-body-1 preposition">&nbsp;coached by&nbsp;</span>
+            <span class="coach-name">{{invoice.relatedEngagement.coach.name}}</span>
+          </div>
+        </div>
+      </div>
+
+      {{#paper-table class="invoice-table flex-100"}}
+        <thead>
+        <tr>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Taxable</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each invoice.sortedSystemTransactions as |transaction|}}
+          {{#paper-row}}
+            {{#paper-column}}
+              {{transaction.description}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{transaction.formattedInvoiceDate}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{format-money transaction.amount transaction.currency.currency transaction.currency.symbol}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{#if transaction.isTaxable}}Yes{{else}}No{{/if}}
+            {{/paper-column}}
+          {{/paper-row}}
+        {{/each}}
+        {{#each invoice.customTransactions as |transaction|}}
+          {{#paper-row}}
+            {{#paper-column}}
+              {{transaction.description}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{transaction.formattedInvoiceDate}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{format-money transaction.amount transaction.currency.currency transaction.currency.symbol}}
+            {{/paper-column}}
+            {{#paper-column}}
+              {{#if transaction.isTaxable}}Yes{{else}}No{{/if}}
+            {{/paper-column}}
+          {{/paper-row}}
+        {{/each}}
+        </tbody>
+      {{/paper-table}}
+
+      <div class="layout-row">
+        <div class="invoice-notes flex layout-column">
+          <span class="md-caption">Notes</span>
+          <p class="md-body-1">{{invoice.notes}}</p>
+        </div>
+        {{#paper-table class="flex"}}
+          <tbody>
+          {{#if invoice.taxApproach}}
+            {{#paper-row}}
+              {{#paper-column}}
+                Tax approach
+              {{/paper-column}}
+              {{#paper-column}}
+                {{invoice.taxApproach.name}}
+              {{/paper-column}}
+            {{/paper-row}}
+          {{/if}}
+          {{#paper-row}}
+            {{#paper-column}}
+              Subtotal
+            {{/paper-column}}
+            {{#paper-column}}
+              <span>{{format-money invoice.subtotal invoice.currency.currency invoice.currency.symbol}}</span>
+            {{/paper-column}}
+          {{/paper-row}}
+          {{#paper-row}}
+            {{#paper-column}}
+              Taxable amount
+            {{/paper-column}}
+            {{#paper-column}}
+              {{format-money invoice.taxableAmount invoice.currency.currency invoice.currency.symbol}}
+            {{/paper-column}}
+          {{/paper-row}}
+          {{#paper-row}}
+            {{#paper-column}}
+              Tax (%)
+            {{/paper-column}}
+            {{#paper-column}}
+              {{invoice.taxRate}}%
+            {{/paper-column}}
+          {{/paper-row}}
+          {{#paper-row}}
+            {{#paper-column}}
+              VAT (%)
+            {{/paper-column}}
+            {{#paper-column}}
+              {{if invoice.vatRate invoice.vatRate '0'}}%
+            {{/paper-column}}
+          {{/paper-row}}
+          {{#paper-row}}
+            {{#paper-column}}
+              Taxes applied
+            {{/paper-column}}
+            {{#paper-column}}
+              {{format-money invoice.taxes invoice.currency.currency invoice.currency.symbol}}
+            {{/paper-column}}
+          {{/paper-row}}
+          {{#if invoice.vatAmount}}
+            {{#paper-row}}
+              {{#paper-column}}
+                VAT Amount
+              {{/paper-column}}
+              {{#paper-column}}
+                {{format-money invoice.vatAmount invoice.currency.currency invoice.currency.symbol}}
+              {{/paper-column}}
+            {{/paper-row}}
+          {{/if}}
+          {{#paper-row}}
+            {{#paper-column}}
+              Grand total
+            {{/paper-column}}
+            {{#paper-column}}
+              {{format-money invoice.total invoice.currency.currency invoice.currency.symbol}}
+            {{/paper-column}}
+          {{/paper-row}}
+          </tbody>
+        {{/paper-table}}
+      </div>
+    {{/card.content}}
+  {{/paper-card}}
+</div>

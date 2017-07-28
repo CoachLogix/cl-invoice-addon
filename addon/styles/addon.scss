@@ -1,2 +1,94 @@
-@import 'status-icon';
-@import 'avatar-icon';
+.invoice-card-content {
+  padding: 28px;
+
+  .full-width {
+    width: 100%;
+  }
+
+  .invoice-title {
+    font-size: 3.0rem;
+  }
+
+  .invoice-details {
+    .row-label {
+      font-weight: bold;
+    }
+  }
+
+  .invoice-table {
+    & > md-card {
+      box-shadow: none;
+    }
+
+    thead th {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    md-data-table md-data-table-column {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      border-top: none;
+    }
+
+    md-input-container {
+      margin: 34px 0 10px;
+    }
+  }
+
+  .invoice-notes {
+    margin-top: 8px;
+  }
+
+  div.payee-info {
+    margin-bottom: 16px;
+    .payee-image-wrapper {
+      margin-right: 16px;
+      .payee-image {
+        height: 150px;
+      }
+    }
+
+    .payee-name {
+      font-weight: 700;
+    }
+  }
+
+  .invoice-status {
+    padding: 0 8px;
+    background-color: #aaa;
+    border-radius: 11px;
+    font-size: 11px;
+    color: #fefefe;
+    text-transform: uppercase;
+
+    &.issued {
+      background-color: $doc-color;
+    }
+    &.paid {
+      background-color: $xls-color;
+    }
+    &.late {
+      background-color: #e74e51;
+    }
+  }
+
+  .payer-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .divider-pad {
+    padding: 10px 0;
+  }
+
+  .coached-by-wrapper {
+    margin: 10px 0;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+
+    .coachee-name, .coach-name {
+      font-weight: 700;
+    }
+    .preposition {
+      font-size: 1.25rem;
+    }
+  }
