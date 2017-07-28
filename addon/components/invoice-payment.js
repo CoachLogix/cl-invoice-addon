@@ -49,8 +49,6 @@ export default Component.extend({
       let invoice = this.get('invoice');
       let toast = this.get('toast');
 
-      // Default thumbnail
-      let thumbnail = '/assets/images/cl_logo_square.jpg';
       if (invoice.get('payee.avatar')) {
         thumbnail = invoice.get('payee.avatar.thumbnail');
       }
@@ -69,7 +67,7 @@ export default Component.extend({
               data: {
                 tokenId: token.id,
                 receiptEmail: token.email,
-                invoiceId: invoice.id
+                invoiceId: invoice.get('id')
               }
             }).then(() => {
               invoice.reload();
