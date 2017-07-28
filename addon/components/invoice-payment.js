@@ -9,6 +9,7 @@ export default Component.extend({
   classNames: ['invoice_payment'],
 
   ajax: inject.service(),
+  stripeCheckout: inject.service(),
   ajaxPending: false,
 
   invoice: computed.alias('model.actionObject'),
