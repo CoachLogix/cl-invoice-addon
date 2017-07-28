@@ -14,11 +14,11 @@
         Invoice{{#if invoice.identifier}} #: {{invoice.identifier}}{{/if}}
       </span>
       <span class="md-subhead">
-        Issued {{moment-js invoice.issued 'll'}}
+        Issued {{invoice.issued}}
       </span>
       {{#if invoice.due}}
         <span class="md-subhead">
-          Due {{moment-js invoice.due 'll'}}
+          Due {{invoice.due}}
         </span>
       {{/if}}
     </md-card-title-text>
@@ -27,7 +27,7 @@
   {{paper-divider}}
 
   {{#paper-card-content}}
-    <span>{{format-money invoice.total invoice.currency.currency invoice.currency.symbol}}</span>
+    <span>{{invoice.total}} {{invoice.currency.currency}} {{invoice.currency.symbol}}</span>
   {{/paper-card-content}}
 
 {{/paper-card}}
