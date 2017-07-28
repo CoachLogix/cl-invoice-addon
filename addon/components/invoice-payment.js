@@ -39,7 +39,7 @@ export default Component.extend({
       this.set('ajaxPending', false);
       this.sendAction('successAction');
     });
-  }
+  },
   actions: {
     payInvoice: function () {
       let stripeCheckout = this.get('stripeCheckout');
