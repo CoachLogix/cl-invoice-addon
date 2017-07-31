@@ -4,7 +4,7 @@ import layout from '../templates/components/invoice-payment';
 const { Component, inject, computed } = Ember;
 
 export default Component.extend({
-  layout: layout,
+  layout,
 
   classNames: ['invoice_payment'],
 
