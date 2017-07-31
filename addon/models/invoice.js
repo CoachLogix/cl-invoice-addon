@@ -20,6 +20,7 @@ export default Model.extend({
   status: attr('string', { defaultValue: 'draft' }),
   payerContact: attr(),
   notes: attr(),
+  isPaid: attr('boolean'),
 
   issued: attr('date', {
     defaultValue() {
