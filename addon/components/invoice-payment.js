@@ -29,8 +29,6 @@ export default Component.extend({
       invoice
     };
 
-    this.set('ajaxPending', true);
-
     // post to pendingActions/set_disposition endpoint
     let request = ajax.request(endpoint, {
       method: 'POST',
@@ -53,32 +51,32 @@ export default Component.extend({
         thumbnail = invoice.get('payee.avatar.thumbnail');
       }
 
-      stripeCheckout
-        .open({
-          name: invoice.get('payee.name'),
-          image: thumbnail,
-          allowRememberMe: false,
-          description: 'Invoice Payment',
-          currency: invoice.get('currency.currency'),
-          amount: invoice.get('totalInCents'),
-          token: (token) => {
-            ajax.request(url, {
-              method: 'POST',
-              data: {
-                tokenId: token.id,
-                receiptEmail: token.email,
-                invoiceId: invoice.get('id')
-              }
-            }).then(() => {
-              invoice.reload();
-              this.get('onSuccess')();
-            }, (err) => {
-              this.sendAction('errorAction');
-            });
-          }
-        });
-      }
+      stripeCheckout.open({
+        name: invoice.get('payee.name'),
+        image: thumbnail,
+        allowRememberMe: false,
+        description: 'Invoice Payment',
+        currency: invoice.get('currency.currency'),
+        amount: invoice.get('totalInCents'),
+        token: (token) => {
+          this.set('ajaxPending', true);
+          ajax.request(url, {
+            method: 'POST',
+            data: {
+              tokenId: token.id,
+              receiptEmail: token.email,
+              invoiceId: invoice.get('id')
+            }
+          }).then(() => {
+            this.get('onSuccess')();
+          }, (err) => {
+            this.set('ajaxPending', false);
+            this.sendAction('errorAction');
+          });
+        }
+      });
     }
   }
-);
+});
+
 
