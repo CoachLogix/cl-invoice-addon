@@ -4,7 +4,7 @@
     {{#paper-card-content}}
     {{#paper-toolbar class="light-theme"}}
         {{#paper-toolbar-tools}}
-          {{unless invoice.isPaid}}
+          {{#unless invoice.isPaid}}
             <div class="flex"></div>
             {{#paper-button primary=true accent=true raised=true onClick=(action 'payInvoice')}}
               Pay via Stripe
