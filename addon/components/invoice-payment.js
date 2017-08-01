@@ -13,27 +13,22 @@ export default Component.extend({
   ajaxPending: false,
 
   invoice: computed.alias('model.actionObject'),
-  apiEndpoint: computed('model', function() {
-    let modelId = this.get('model.id');
-    return `/api/pendingActions/${modelId}/set_disposition`;
-  }),
 
-  onSuccess: function() {
-    // gather responses, build payload
+  onSuccess() {
     let ajax = this.get('ajax');
-    let component = this;
-    let endpoint = this.get('apiEndpoint');
+    let endpoint = `/api/pendingActions/${this.get('model.id')}/set_disposition`;
     let invoice = this.get('invoice');
     let payload = {
       disposition: 'pay',
       invoice
     };
 
-    // post to pendingActions/set_disposition endpoint
-    let request = ajax.request(endpoint, {
+    ajax.request(endpoint, {
       method: 'POST',
       contentType: 'application/json',
-      data: JSON.stringify({pendingAction: payload})
+      data: JSON.stringify({
+        pendingAction: payload
+      })
     }).then(() => {
       this.set('ajaxPending', false);
       this.sendAction('successAction');

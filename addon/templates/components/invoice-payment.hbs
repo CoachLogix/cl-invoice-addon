@@ -1,4 +1,7 @@
 {{yield}}
+{{#if ajaxPending}}
+  {{partial "partials/spinner"}}
+{{else}}
 <div class="flex flex-100">
   {{#paper-card class="invoice-card" as |card|}}
     {{#paper-card-content}}
@@ -218,3 +221,4 @@
     {{/card.content}}
   {{/paper-card}}
 </div>
+{{/if}}
