@@ -63,7 +63,7 @@ export default Component.extend({
               invoiceId: invoice.get('id')
             }
           }).then(() => {
-            this.get('onSuccess')();
+            this.get('onSuccess').call(this);
           }, (err) => {
             this.set('ajaxPending', false);
             this.sendAction('errorAction');
