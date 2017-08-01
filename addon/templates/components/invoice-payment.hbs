@@ -1,8 +1,6 @@
 {{yield}}
 {{#if ajaxPending}}
-  <div layout="row" layout-align="center-center">
-    {{paper-progress-circular accent=true class="md-hue-1" diameter=60}}
-  </div>
+  {{partial "partials/spinner"}}
 {{else}}
 <div class="flex flex-100">
   {{#paper-card class="invoice-card" as |card|}}
