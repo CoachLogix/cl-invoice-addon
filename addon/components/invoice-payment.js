@@ -14,26 +14,6 @@ export default Component.extend({
 
   invoice: computed.alias('model.actionObject'),
 
-  onSuccess() {
-    let ajax = this.get('ajax');
-    let endpoint = `/api/pendingActions/${this.get('model.id')}/set_disposition`;
-    let invoice = this.get('invoice');
-    let payload = {
-      disposition: 'pay',
-      invoice
-    };
-
-    ajax.request(endpoint, {
-      method: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify({
-        pendingAction: payload
-      })
-    }).then(() => {
-      this.set('ajaxPending', false);
-      this.sendAction('successAction');
-    });
-  },
   actions: {
     payInvoice: function () {
       let stripeCheckout = this.get('stripeCheckout');
@@ -63,7 +43,8 @@ export default Component.extend({
               invoiceId: invoice.get('id')
             }
           }).then(() => {
-            this.get('onSuccess').call(this);
+            this.set('ajaxPending', false);
+            this.sendAction('successAction');
           }, (err) => {
             this.set('ajaxPending', false);
             this.sendAction('errorAction');
