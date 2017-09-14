@@ -20,7 +20,7 @@ export default Component.extend({
     let isPayer = this.get('invoice.isPayer');
 
     return !isPaid && payViaStripe && isPayer;
-  });
+  }),
 
   actions: {
     payInvoice() {
