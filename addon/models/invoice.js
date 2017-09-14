@@ -21,6 +21,7 @@ export default Model.extend({
   payerContact: attr(),
   notes: attr(),
   isPaid: attr('boolean'),
+  isPayer: attr('boolean'),
 
   issued: attr('date', {
     defaultValue() {
