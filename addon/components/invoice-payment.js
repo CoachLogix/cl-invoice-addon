@@ -14,7 +14,7 @@ export default Component.extend({
 
   invoice: computed.alias('model.actionObject'),
 
-  showPayViaStripeButton: computed('invoice', function() {
+  showPayViaStripeButton: computed('invoice.isPaid', 'invoice.payViaStripe', 'invoice.isPayer', function() {
     let isPaid = this.get('invoice.isPaid');
     let payViaStripe = this.get('invoice.payViaStripe');
     let isPayer = this.get('invoice.isPayer');
