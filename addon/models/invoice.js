@@ -22,6 +22,7 @@ export default Model.extend({
   notes: attr(),
   isPaid: attr('boolean'),
   isPayer: attr('boolean'),
+  payViaStripe: attr('boolean'),
 
   issued: attr('date', {
     defaultValue() {

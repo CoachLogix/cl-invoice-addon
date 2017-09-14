@@ -14,8 +14,16 @@ export default Component.extend({
 
   invoice: computed.alias('model.actionObject'),
 
+  showPayViaStripeButton: computed('invoice', function() {
+    let isPaid = this.get('invoice.isPaid');
+    let payViaStripe = this.get('invoice.payViaStripe');
+    let isPayer = this.get('invoice.isPayer');
+
+    return !isPaid && payViaStripe && isPayer;
+  });
+
   actions: {
-    payInvoice: function () {
+    payInvoice() {
       let stripeCheckout = this.get('stripeCheckout');
       let ajax = this.get('ajax');
       let url = '/api/stripe/pay';

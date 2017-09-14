@@ -9,7 +9,7 @@
     {{#paper-card-content}}
     {{#paper-toolbar class="light-theme"}}
         {{#paper-toolbar-tools}}
-          {{#if (and invoice.isPayer (not invoice.isPaid)}}
+          {{#if showPayViaStripeButton}}
             <div class="flex"></div>
             {{#paper-button primary=true accent=true raised=true onClick=(action 'payInvoice')}}
               Pay via Stripe
